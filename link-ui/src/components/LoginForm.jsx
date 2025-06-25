@@ -6,7 +6,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(5, "Password must be at least 5 characters"),
 });
 
 function LoginForm() {
@@ -21,15 +21,25 @@ function LoginForm() {
   });
 
   const onSubmit = async (data) => {
-    try {
-      const response = await axios.post("http://localhost:5000/login", data);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      navigate("/dashboard");
-    } catch (err) {
-      console.error("Login error:", err);
-      alert("Invalid credentials");
-    }
-  };
+  try {
+    const response = await axios.post("http://localhost:5000/login", data);
+
+    //Store token + user info in a way Dashboard understands
+    localStorage.setItem(
+      "user",
+      JSON.stringify({
+        token: response.data.access_token,
+        ...response.data.user,
+      })
+    );
+
+    navigate("/main");
+  } catch (err) {
+    console.error("Login error:", err);
+    alert("Invalid credentials");
+  }
+};
+
 
   return (
     <div className="h-screen bg-sky-400 flex items-center justify-center px-4 sm:px-6 lg:px-8">

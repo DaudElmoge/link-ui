@@ -21,16 +21,26 @@ function SignupForm() {
     resolver: zodResolver(signupSchema),
   });
 
-  const onSubmit = async (data) => {
+ const onSubmit = async (data) => {
     try {
       const response = await axios.post("http://localhost:5000/signup", data);
-      localStorage.setItem("user", JSON.stringify(response.data));
-      navigate("/dashboard");
+
+      //Store token and user info correctly
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          token: response.data.access_token,
+          ...response.data.user,
+        })
+      );
+
+      navigate("/main");
     } catch (err) {
       console.error("Signup error:", err);
       alert("Signup failed");
     }
   };
+
 
   return (
     <div className="min-h-screen bg-sky-400 flex items-center justify-center px-4 sm:px-6 lg:px-8">
