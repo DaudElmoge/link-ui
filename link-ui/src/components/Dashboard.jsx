@@ -177,7 +177,7 @@ function Dashboard() {
           )}
         </aside>
 
-        {/* Main Section */}
+        {/* SearchBar */}
         <main className="flex-1 p-4 sm:p-6 relative">
           <div className="flex justify-end mb-6">
             <input
@@ -186,7 +186,7 @@ function Dashboard() {
               className="w-full sm:w-64 px-4 py-2 border rounded-md shadow-sm focus:outline-none"
             />
           </div>
-
+          {/* LinkCard */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {filteredLinks.map((link) => (
               <div key={link.id} className="bg-white p-4 rounded-xl shadow relative">
